@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.rawgit.com/lodash/lodash/3.0.1/lodash.min.js"></script>
+<script src="https://npmcdn.com/@reactivex/rxjs@5.0.0-alpha.8/dist/global/Rx.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+</head>
+<body>
+<div>Test RxJs Leak</div>
+</body>
+<script>
+	var Observable=Rx.Observable;
+	var source = Observable.create(function(observer){
+		var largeData = _.range(1000);
+		observer.next(largeData);
+		observer.complete();
+		return function(){
+			console.log('before garbage collection:', largeData);
+			largeData = undefined;
+			console.log('after garbage collection:', largeData);
+		};
+	});
+	var subscription = source.subscribe(function(data){
+		console.log('the data comes first:',data);
+	});
+</script>
+</html>
