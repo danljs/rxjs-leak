@@ -10,6 +10,7 @@
 <div>Test RxJs Leak</div>
 </body>
 <script>
+//http://stackoverflow.com/questions/41369546/will-this-observable-create-a-memory-leak
 	var Observable=Rx.Observable;
 	var source = Observable.create(function(observer){
 		var largeData = _.range(1000);
